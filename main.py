@@ -10,9 +10,9 @@ if __name__ == "__main__":
         host="localhost",
         user="user",
         password="password",
-        database="dbname",
+        database="database",
         port=3306,
-        table="tablename",
+        table="table",
         servicename="myservice",
         interval=1
     )
@@ -37,7 +37,6 @@ if __name__ == "__main__":
             try:
                 mynum = 3/0
             except Exception as e:
-                metrics.exception_cnt+=1
-                metrics.append_log(f"some exception:{e},{traceback.format_exc()}")
+                metrics.error_cnt+=1
 
         heartbeat.send("UP", my_config, metrics)

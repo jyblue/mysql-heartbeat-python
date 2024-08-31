@@ -17,23 +17,16 @@ class DefaultHeartbeatMetric():
         self.extract_cnt=0
         self.transform_cnt=0
         self.load_cnt=0
-        self.exception_cnt=0
-
-        self.logs=[]
-        self.max_logs=10
+        self.warnning_cnt=0
+        self.error_cnt=0
 
     def reset(self):
         self.collected_from=self.__get_kst_now()
         self.extract_cnt=0
         self.transform_cnt=0
         self.load_cnt=0
-        self.exception_cnt=0
-
-        self.logs=[]
-    
-    def append_log(self, log:str):
-        if isinstance(log, str) and len(self.logs) < self.max_logs:
-            self.logs.append(log)
+        self.warnning_cnt=0
+        self.error_cnt=0
 
     def __get_kst_now(self):
         kst_now = datetime.now(timezone.utc) + timedelta(hours=9)
@@ -82,12 +75,13 @@ class MysqlHeartbeatManager():
         try:
             if self.__is_timeover():
                 
-                ip_address=self.__get_ip_address()
+                #instance=self.__get_ip_address()
+                instance=self.__get_hostname()
                 config_json=self.__get_attr_json(config)
                 metics_json=self.__get_attr_json(metrics)
 
                 self.__insert_heartbeat(
-                    instance=ip_address,
+                    instance=instance,
                     status=status,
                     config_json=config_json,
                     metric_json=metics_json
@@ -127,6 +121,12 @@ class MysqlHeartbeatManager():
             return ip_address
         except Exception as e:
             return "ip_error"
+        
+    def __get_hostname(self) -> str:
+        try:
+            return socket.gethostname()
+        except Exception as e:
+            return "hostname_error"
         
     def __get_attr_json(self, instance) -> dict:
         if isinstance(instance, dict):
