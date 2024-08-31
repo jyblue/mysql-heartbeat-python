@@ -25,18 +25,18 @@ if __name__ == "__main__":
     flag=True
     while True:
         time.sleep(0.3)
-        metrics.extract_cnt+=1
+        metrics.extract()
 
         if flag:
-            metrics.transform_cnt+=1
+            metrics.transform()
             flag=False
         else:
-            metrics.load_cnt+=1
+            metrics.load()
             flag=True
 
             try:
                 mynum = 3/0
             except Exception as e:
-                metrics.error_cnt+=1
+                metrics.error()
 
         heartbeat.send("UP", my_config, metrics)

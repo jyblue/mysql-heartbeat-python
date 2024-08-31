@@ -31,6 +31,30 @@ class DefaultHeartbeatMetric():
     def __get_kst_now(self):
         kst_now = datetime.now(timezone.utc) + timedelta(hours=9)
         return kst_now.strftime('%Y-%m-%d %H:%M:%S')
+    
+    def extract(self):
+        """
+        as known as 'consume'
+        """
+        self.extract_cnt += 1
+    
+    def transform(self):
+        """
+        as known as 'parse'
+        """
+        self.transform_cnt += 1
+
+    def load(self):
+        """
+        as known as 'interface'
+        """
+        self.load_cnt += 1
+
+    def warnning(self):
+        self.warnning_cnt += 1
+
+    def error(self):
+        self.error_cnt += 1
 
 
 class MysqlHeartbeatManager():
