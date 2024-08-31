@@ -2,7 +2,8 @@
 ```text
 description
 ```
-### Mysql DDL Guide
+### DDL Guide
+* mariadb-11.3.2
 ```sql
 CREATE TABLE `heartbeat_table` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
